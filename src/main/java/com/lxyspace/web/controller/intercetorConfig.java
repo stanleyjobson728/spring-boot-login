@@ -5,8 +5,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 public class intercetorConfig implements HandlerInterceptor {
 
@@ -22,21 +20,8 @@ public class intercetorConfig implements HandlerInterceptor {
             //没有值，没有登录，返回到登录页面：
 //            request.getRequestDispatcher("/login.html").forward(request, response);
             //同时设置错误信息
-            return reLogin(response);
-        }
-    }
-
-
-    private boolean reLogin(HttpServletResponse response) throws IOException {
-        PrintWriter out;
-        try{
-//            FoilResult res = FoilResult.build(201,"用户需要重新登陆","login");
-            out = response.getWriter();
-            out.append("用户需要重新登陆");
-            return false;
-        } catch (Exception e){
-            e.printStackTrace();
-            response.sendError(500);
+            request.setAttribute("msg", "没有权限");
+            response.sendRedirect("/user/login");
             return false;
         }
     }
